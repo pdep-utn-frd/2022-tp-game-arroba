@@ -126,7 +126,7 @@ object juego{
 	
 	method iniciar(){
 		game.addVisual()
-		game.whenCollideDo(pelota, { elemento => game.removeVisual(elemento)}
+		game.whenCollideDo(pelota, { elemento => game.removeVisual(elemento)}//cuando colisionan q desaparezca rectangulo
 	}
 }
 
