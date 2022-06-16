@@ -121,12 +121,13 @@ object juego{
 		new Rectangulo( posicion = game.at(8,6) , color = "Amarillo"),
 		new Rectangulo( posicion = game.at(9,6) , color = "Amarillo"),
 		new Rectangulo( posicion = game.at(10,6) , color = "Amarillo"),
-	
 	]
 	
 	method iniciar(){
-		game.addVisual()
-		game.whenCollideDo(pelota, { elemento => game.removeVisual(elemento)}//cuando colisionan q desaparezca rectangulo
+		Rectangulos.forEach({rectangulo => game.addVisual(rectangulo)})
+		game.whenCollideDo(pelota, { elemento => game.removeVisual(elemento)}  //cuando colisionan q desaparezca rectangulo
 	}
 }
 
+//hdjchdno d
+)

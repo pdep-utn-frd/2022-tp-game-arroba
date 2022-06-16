@@ -14,6 +14,5 @@ class Juego {
 	}
 	method image() = "juego" + color + ".png"
 	
-
 }
 
