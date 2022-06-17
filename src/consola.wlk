@@ -4,12 +4,7 @@ import juego.*
 object consola {
 
 	const juegos = [
-		new Juego(color = "Amarillo"),
-		new Juego(color = "Verde"),
-		new Juego(color = "Rojo"),
-		new Juego(color = "Azul"),
-		new Juego(color = "Naranja"),
-		new Juego(color = "Violeta")
+		new Vivora()
 	]
 	var menu 
 	
@@ -92,42 +87,6 @@ class MenuIconos{
 	}
 }
 
-class Rectangulo {
-	var posicion = game.at(0,0)
-	var color = "Rojo"
-}
 
-object juego{
-	const Rectangulos = [
-		new Rectangulo( posicion = game.at(7,9) , color = "Rojo"),
-		new Rectangulo( posicion = game.at(8,9) , color = "Rojo"),
-		new Rectangulo( posicion = game.at(9,9) , color = "Rojo"),
-		new Rectangulo( posicion = game.at(10,9) , color = "Rojo"),
-		
-		
-		new Rectangulo( posicion = game.at(7,8) , color = "Azul"),
-		new Rectangulo( posicion = game.at(8,8) , color = "Azul"),
-		new Rectangulo( posicion = game.at(9,8) , color = "Azul"),
-		new Rectangulo( posicion = game.at(10,8) , color = "Azul"),
-	
-		
-		new Rectangulo( posicion = game.at(7,7) , color = "Verde"),
-		new Rectangulo( posicion = game.at(8,7) , color = "Verde"),
-		new Rectangulo( posicion = game.at(9,7) , color = "Verde"),
-		new Rectangulo( posicion = game.at(10,7) , color = "Verde"),
-	
-		
-		new Rectangulo( posicion = game.at(7,6) , color = "Amarillo"),
-		new Rectangulo( posicion = game.at(8,6) , color = "Amarillo"),
-		new Rectangulo( posicion = game.at(9,6) , color = "Amarillo"),
-		new Rectangulo( posicion = game.at(10,6) , color = "Amarillo"),
-	]
-	
-	method iniciar(){
-		Rectangulos.forEach({rectangulo => game.addVisual(rectangulo)})
-		game.whenCollideDo(pelota, { elemento => game.removeVisual(elemento)}  //cuando colisionan q desaparezca rectangulo
-	}
-}
 
-//hdjchdno d
-)
+
