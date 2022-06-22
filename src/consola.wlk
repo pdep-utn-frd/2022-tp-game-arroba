@@ -4,7 +4,7 @@ import juego.*
 object consola {
 
 	const juegos = [
-		new Vivora()
+		new Juego(color = "amarillo")
 	]
 	var menu 
 	
