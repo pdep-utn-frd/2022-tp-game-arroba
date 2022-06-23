@@ -9,11 +9,9 @@ class Juego {
 	method iniciar(){
         game.addVisual(fondo)
         game.addVisualCharacter(cara)
-        //game.addVisual(cuadrado)
         game.addVisual(gusano)
         game.addVisual(puntos)
-        cara.iniciar()
-        game.schedule(200, {=>game.addVisual(cuerpo)}) 
+        cara.iniciar() 
      }
         
 	
@@ -31,99 +29,70 @@ object fondo{
 
 object cara{
 	
+	var cuerpo = new Cuerpo()
 	var property position = game.at(0,7)
 	var property ultimo = "derecha"
 	var imagen = "cara.jpeg"
+	var posicionPrevia
+	var direccionActual = [1,0]
+	var proximaImagen ="cara.jpeg"
 	
 	method position() = position
 	method image() = imagen
 	method iniciar(){
-		game.schedule(100, {game.onTick(100,"moverSerpienteRight", {self.moverRight()})})
+		game.addVisual(cuerpo)
+		game.onTick(200,"moverSerpiente", {self.mover()})
 		
 		keyboard.right().onPressDo({ 
-			self.casos()
-			ultimo = "derecha"
-			game.onTick(100,"moverSerpienteRight", {self.moverRight()})
+			direccionActual=[1,0]
+			proximaImagen="cara.jpeg"
 		})
 		
 		keyboard.up().onPressDo{
-			self.casos()
-			ultimo = "arriba"
-			game.onTick(100,"moverSerpienteUp", {self.moverUp()})
+			direccionActual=[0,1]
+			proximaImagen="caraarriba.jpeg"
 		}
 		
 		keyboard.down().onPressDo{ 
-			self.casos()
-			ultimo = "abajo"
-			game.onTick(100,"moverSerpienteDown", {self.moverDown()})
+			direccionActual=[0,-1]
+			proximaImagen="caraabajo.jpeg"
 		}
 		
 		keyboard.left().onPressDo{ 
-			self.casos()
-			ultimo = "izquierda"
-			game.onTick(100,"moverSerpienteLeft", {self.moverLeft()})
+			direccionActual=[-1,0]
+			proximaImagen="caraizq.jpg"
 		}
-		
+			
 		self.chocar()
 }
 		
-	method casos(){
-		if(ultimo == "derecha"){
-			self.detenerRight()
-		}
-		if(ultimo == "arriba"){
-			self.detenerUp()
-		}
-		if(ultimo == "abajo"){
-			self.detenerDown()
-		}
-		if(ultimo == "izquierda"){
-			self.detenerLeft()
-		}
-		
-	}
-	
-	method moverRight(){
-		position = position.right(1)
+	method mover(){
+		posicionPrevia=position
+		position = game.at(position.x()+ direccionActual.get(0), position.y()+direccionActual.get(1))
+		cuerpo.mover(posicionPrevia)	
+		imagen=proximaImagen	
 		if (position.x() == 17){
-			position = game.at(0,position.y())
-		}
-	}
-	
-	method detenerRight(){
-		game.removeTickEvent("moverSerpienteRight")
-	}
-	
-	method moverUp(){
-		position = position.up(1)
+			position = game.at(0,position.y())}
 		if (position.y() == 12){
-		 position = game.at(position.x(),0)
-		}
-	}
-	method detenerUp(){
-		game.removeTickEvent("moverSerpienteUp")
-	}
-	//
-	
-	method moverDown(){
-		position = position.down(1)
-		if (position.y() == -1){
-			position = game.at(position.x(),12)
-		}
-	}
-	method detenerDown(){
-		game.removeTickEvent("moverSerpienteDown")
-	}
-	//
-	
-	method moverLeft(){	
-		position = position.left(1)
-		if (position.x() == -1){
+		 position = game.at(position.x(),0)}
+		 if (position.y() == -1){
+		position = game.at(position.x(),12)
+		 }
+		 if (position.x() == -1){
 			position = game.at(17,position.y())
-		}
+		 }
+	}	
+	
+	method previousPosition()=posicionPrevia
+	
+	method aumentarTamanio(){
+		cuerpo.aumentarTamanio()
 	}
-	method detenerLeft(){
-		game.removeTickEvent("moverSerpienteLeft")
+	
+	method detener(){
+		game.removeVisual(cara)
+		game.removeTickEvent("moverSerpiente")
+		
 	}
 	
 	method hablar() = "yummy"
@@ -134,8 +103,6 @@ object cara{
     		elemento.manejarChoque()
     		})
 	}
-		
-		//method chocar() que solo choque consigo--->GAME OVERs	
 } 
 
 
@@ -158,9 +125,7 @@ object gusano{
     position = game.at(x,y) 
     game.say(cara, cara.hablar())
     		puntos.calculo()
-//    		new Cuerpo(position = game.at())
-// nuevo objecto en la posicion previa de la cara o de ultimo bloque
-    		//crecer 
+    cara.aumentarTamanio()
   }
 }
 
@@ -182,27 +147,43 @@ object puntos{
 }
 
 
-
-
 class Cuerpo{
-	//
-	
-	var property position = game.at(0,7)
-	var property ultimo = "derecha"
+	var behind = null
+	var property position = game.at(1,7)
 	var imagen = "cuadrado.jpeg"
-// puedo crear un objeto cada vez que choco?
-	method position() = position
+	var posicionPrevia = null
+
 	method image() = imagen
-	method iniciar(){
-	}
+	
+	method mover(siguientePosicion){
+		posicionPrevia=position
+		position = siguientePosicion
+		if (behind!=null){
+			behind.mover(posicionPrevia)			
+		}
+		}
 		
 	method manejarChoque(){
-		game.clear()
-		
+		cara.detener()
+		game.addVisual(gameOver)
+	}
+	
+	method aumentarTamanio(){
+		console.println("aumento")
+		if (behind==null){
+			behind = new Cuerpo( position= posicionPrevia)
+			game.addVisual(behind)
+		}
+		else
+		behind.aumentarTamanio()
 	}
 } 
 
-object cuerpo inherits Cuerpo(position = game.at(0,7), ultimo = "derecha", imagen = "cuadrado.jpeg"){
+object gameOver{
+	var imagen="gameover1.png"
+	var property position= game.at(2,2)
 	
+	method image()=imagen
 }
+
 
