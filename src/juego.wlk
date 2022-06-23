@@ -12,6 +12,9 @@ class Juego {
         game.addVisual(gusano)
         game.addVisual(puntos)
         cara.iniciar() 
+        const musica = game.sound("fondoo.mp3")
+	musica.shouldLoop(true)
+	game.schedule(100, { musica.play()} )
      }
         
 	
@@ -41,7 +44,7 @@ object cara{
 	method image() = imagen
 	method iniciar(){
 		game.addVisual(cuerpo)
-		game.onTick(200,"moverSerpiente", {self.mover()})
+		game.onTick(300,"moverSerpiente", {self.mover()})
 		
 		keyboard.right().onPressDo({ 
 			direccionActual=[1,0]
@@ -125,6 +128,7 @@ object gusano{
     position = game.at(x,y) 
     game.say(cara, cara.hablar())
     		puntos.calculo()
+    game.sound("comegusano.wav").play()
     cara.aumentarTamanio()
   }
 }
@@ -137,7 +141,7 @@ object puntos{
 	var puntos = 0
 	method text() = puntos.toString()
 	method textColor() = paleta.verde()
-	method position() = game.at(0,11)
+	method position() = game.at(1,10)
 	method calculo(){
 		puntos += 132
 	} 
@@ -150,7 +154,7 @@ object puntos{
 class Cuerpo{
 	var behind = null
 	var property position = game.at(1,7)
-	var imagen = "cuadrado.jpeg"
+	var imagen = "cuadrado1.png"
 	var posicionPrevia = null
 
 	method image() = imagen
@@ -166,6 +170,7 @@ class Cuerpo{
 	method manejarChoque(){
 		cara.detener()
 		game.addVisual(gameOver)
+		game.sound("fin.wav").play()
 	}
 	
 	method aumentarTamanio(){
