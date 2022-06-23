@@ -13,7 +13,7 @@ class Juego {
         game.addVisual(gusano)
         game.addVisual(puntos)
         cara.iniciar()
-        game.schedule(100, {=>game.addVisual(cuerpo)}) 
+        game.schedule(200, {=>game.addVisual(cuerpo)}) 
      }
         
 	
@@ -29,11 +29,11 @@ object fondo{
 	method image() = "fondo.jpg"
 }
 
-class Cara{
+object cara{
 	
 	var property position = game.at(0,7)
 	var property ultimo = "derecha"
-	var imagen = "cuadrado.jpeg"
+	var imagen = "cara.jpeg"
 	
 	method position() = position
 	method image() = imagen
@@ -64,8 +64,8 @@ class Cara{
 			game.onTick(100,"moverSerpienteLeft", {self.moverLeft()})
 		}
 		
-//		self.chocar()
-		}
+		self.chocar()
+}
 		
 	method casos(){
 		if(ultimo == "derecha"){
@@ -125,12 +125,6 @@ class Cara{
 	method detenerLeft(){
 		game.removeTickEvent("moverSerpienteLeft")
 	}
-		
-		//method chocar() que solo choque consigo--->GAME OVERs
-	
-} 
-
-object cara inherits Cara(  position = game.at(0,7) , ultimo = "derecha", imagen = "cara.jpeg"){
 	
 	method hablar() = "yummy"
 	
@@ -140,7 +134,10 @@ object cara inherits Cara(  position = game.at(0,7) , ultimo = "derecha", imagen
     		elemento.manejarChoque()
     		})
 	}
-}
+		
+		//method chocar() que solo choque consigo--->GAME OVERs	
+} 
+
 
 object gusano{
 	var property position = game.center()
@@ -197,7 +194,6 @@ class Cuerpo{
 	method position() = position
 	method image() = imagen
 	method iniciar(){
-		
 	}
 		
 	method manejarChoque(){
