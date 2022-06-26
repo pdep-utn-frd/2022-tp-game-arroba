@@ -35,35 +35,35 @@ object cara{
 	var cuerpo = new Cuerpo()
 	var property position = game.at(0,7)
 	var property ultimo = "derecha"
-	var imagen = "cara.jpeg"
+	var imagen = "cara.png"
 	var posicionPrevia
 	var direccionActual = [1,0]
-	var proximaImagen ="cara.jpeg"
+	var proximaImagen ="cara.png"
 	
 	method position() = position
 	method image() = imagen
 	method iniciar(){
 		game.addVisual(cuerpo)
-		game.onTick(300,"moverSerpiente", {self.mover()})
+		game.onTick(200,"moverSerpiente", {self.mover()})
 		
 		keyboard.right().onPressDo({ 
 			direccionActual=[1,0]
-			proximaImagen="cara.jpeg"
+			proximaImagen="cara.png"
 		})
 		
 		keyboard.up().onPressDo{
 			direccionActual=[0,1]
-			proximaImagen="caraarriba.jpeg"
+			proximaImagen="caraar.png"
 		}
 		
 		keyboard.down().onPressDo{ 
 			direccionActual=[0,-1]
-			proximaImagen="caraabajo.jpeg"
+			proximaImagen="caraab.png"
 		}
 		
 		keyboard.left().onPressDo{ 
 			direccionActual=[-1,0]
-			proximaImagen="caraizq.jpg"
+			proximaImagen="caraiii.png"
 		}
 			
 		self.chocar()
@@ -174,7 +174,6 @@ class Cuerpo{
 	}
 	
 	method aumentarTamanio(){
-		console.println("aumento")
 		if (behind==null){
 			behind = new Cuerpo( position= posicionPrevia)
 			game.addVisual(behind)
