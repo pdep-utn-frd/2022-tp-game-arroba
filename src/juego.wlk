@@ -37,8 +37,9 @@ object cara{
 	var property ultimo = "derecha"
 	var imagen = "cara.png"
 	var posicionPrevia
-	var direccionActual = [1,0]
+	var property direccionActual = [1,0]
 	var proximaImagen ="cara.png"
+//	var property ultimaDireccion = [1,0]
 	
 	method position() = position
 	method image() = imagen
@@ -47,21 +48,25 @@ object cara{
 		game.onTick(200,"moverSerpiente", {self.mover()})
 		
 		keyboard.right().onPressDo({ 
+//			ultimaDireccion= direccionActual
 			direccionActual=[1,0]
 			proximaImagen="cara.png"
 		})
 		
 		keyboard.up().onPressDo{
+//			ultimaDireccion= direccionActual
 			direccionActual=[0,1]
 			proximaImagen="caraar.png"
 		}
 		
 		keyboard.down().onPressDo{ 
+//			ultimaDireccion= direccionActual
 			direccionActual=[0,-1]
 			proximaImagen="caraab.png"
 		}
 		
 		keyboard.left().onPressDo{ 
+//			ultimaDireccion= direccionActual
 			direccionActual=[-1,0]
 			proximaImagen="caraiii.png"
 		}
@@ -168,10 +173,16 @@ class Cuerpo{
 		}
 		
 	method manejarChoque(){
+//		if (
+//			(cara.ultimaDireccion==[0,1] and cara.direccionActual==[0,-1])
+//		){}
+//		else{
+//prevenir que se pierda cuando se pasa de una direccion a la opuesta 
 		cara.detener()
 		game.addVisual(gameOver)
 		game.sound("fin.wav").play()
-	}
+		}
+		
 	
 	method aumentarTamanio(){
 		if (behind==null){
