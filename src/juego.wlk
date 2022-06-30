@@ -35,42 +35,42 @@ object cara{
 	var cuerpo = new Cuerpo()
 	var property position = game.at(0,7)
 	var property ultimo = "derecha"
-	var imagen = "cara.png"
+	var imagen = "cara1.png"
 	var posicionPrevia
 	var property direccionActual = [1,0]
-	var proximaImagen ="cara.png"
+	var proximaImagen ="cara1.png"
 //	var property ultimaDireccion = [1,0]
 	
 	method position() = position
 	method image() = imagen
 	method iniciar(){
-		game.addVisual(cuerpo)
+		game.schedule(200, {game.addVisual(cuerpo)})
 		game.onTick(200,"moverSerpiente", {self.mover()})
 		
 		keyboard.right().onPressDo({ 
 //			ultimaDireccion= direccionActual
 			direccionActual=[1,0]
-			proximaImagen="cara.png"
+			proximaImagen="cara1.png"
 		})
 		
 		keyboard.up().onPressDo{
 //			ultimaDireccion= direccionActual
 			direccionActual=[0,1]
-			proximaImagen="caraar.png"
+			proximaImagen="cara4.png"
 		}
 		
 		keyboard.down().onPressDo{ 
 //			ultimaDireccion= direccionActual
 			direccionActual=[0,-1]
-			proximaImagen="caraab.png"
+			proximaImagen="cara2.png"
 		}
 		
 		keyboard.left().onPressDo{ 
 //			ultimaDireccion= direccionActual
 			direccionActual=[-1,0]
-			proximaImagen="caraiii.png"
+			proximaImagen="cara3.png"
 		}
-			
+				
 		self.chocar()
 }
 		
