@@ -4,8 +4,7 @@ import juego.*
 object consola {
 
 	const juegos = [
-		new Juego(color = "amarillo")
-	]
+		new Juego(color = "amarillo")]
 	var menu 
 	
 	method initialize(){
