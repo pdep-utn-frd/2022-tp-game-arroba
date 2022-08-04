@@ -1,8 +1,6 @@
 import wollok.game.*
 import consola.*
-//objeto direccion
-// herencia 
-// items juego
+
 
 class Juego {
 	var property position = null
@@ -31,13 +29,10 @@ class Juego {
 	musica.shouldLoop(true)
 	game.schedule(100, { musica.play()} )
      }
-        
-	
+  
 	method terminar(){
 		game.stop()
 	}
-	
-	
 }
 
 object fondo{
@@ -49,6 +44,7 @@ class Direccion {
 	 method x()=1
 	 method y()=0
 }
+//tiene metodos x e y que se redefinen en cada cada objeto segun su direccion
 
 const derecha = new Direccion()
 object izquierda inherits Direccion{
@@ -79,28 +75,25 @@ object cara{
 	method image() = imagen
 	method iniciar(){
 		game.schedule(200, {game.addVisual(cuerpo)})
+// tenemos una instancia de la clase cuerpo		
 		game.onTick(200,"moverSerpiente", {self.mover()})
-		
+// cada 200ms se ejecuta el metodo mover		
 		keyboard.right().onPressDo({ 
-//			ultimaDireccion= direccionActual
 			direccionActual=derecha
 			proximaImagen="cara1.png"
 		})
 		
 		keyboard.up().onPressDo{
-//			ultimaDireccion= direccionActual
 			direccionActual=arriba
 			proximaImagen="cara4.png"
 		}
 		
 		keyboard.down().onPressDo{ 
-//			ultimaDireccion= direccionActual
 			direccionActual=abajo
 			proximaImagen="cara2.png"
 		}
 		
 		keyboard.left().onPressDo{ 
-//			ultimaDireccion= direccionActual
 			direccionActual=izquierda
 			proximaImagen="cara3.png"
 		}
@@ -111,6 +104,8 @@ object cara{
 	method mover(){
 		posicionPrevia=position
 		position = game.at(position.x()+ direccionActual.x(), position.y()+direccionActual.y())
+// la posicion de la cara pasa a ser la posicion actual sumandole en cada coordenada un valor que 
+// depende de la direccion actual
 		cuerpo.mover(posicionPrevia)	
 		imagen=proximaImagen	
 		if (position.x() == 17){
@@ -125,7 +120,7 @@ object cara{
 		 }
 	}	
 	
-	method previousPosition()=posicionPrevia
+
 	
 	method aumentarTamanio(){
 		cuerpo.aumentarTamanio()
@@ -140,7 +135,8 @@ object cara{
 	method hablar() = "yummy"
 	
 	method chocar(){
-	// Apenas el personaje wollok colisione con la caja, el personaje habla y la caja se desplaza
+	// a cualquier elemento con el que colisiones la cara, se le ejecuta manejarChoque con diferentes 
+	// consecuencias 
   		game.whenCollideDo(self, { elemento => 
     		elemento.manejarChoque()
     		})
@@ -170,11 +166,8 @@ class Gusano{
  	
  	method manejarChoque() {
     	self.cambioPosicion()
-    // otra forma de generar números aleatorios
-    // const x = (0.. game.width()-1).anyOne() 
-    // const y = (0.. game.height()-1).anyOne() 
-    	self.reaccion()
     	self.calculoDePuntos()
+    	self.reaccion()
   	}
 }
 const gusanoVerde = new Gusano()
@@ -229,6 +222,12 @@ class Cuerpo{
 		}
 		}
 		
+// cuando behind es null, el cuerpo asume la posicion que se le pasa por parametro, que para el primero es 
+// el de la cara, 
+// recien deja de ser null cuando se ejcuta aumentar tamanio
+// cuando no es null, a su behind se le ejecuta el mismo metodo, y asi sucesivamente hasta que el behind sea null
+// de esta manera, la cara y cada cuerpo se meueven de manera connjunta
+		
 	method manejarChoque(){
 //		if (
 //			(cara.ultimaDireccion==[0,1] and cara.direccionActual==[0,-1])
@@ -250,6 +249,12 @@ class Cuerpo{
 		behind.aumentarTamanio()
 	}
 } 
+// se ejecuta cuando el gusano colisiona con la cara
+// cuando behind es null, significa que este cuerpo es el ultimo y se le asigna a behind un nuevo cuerpo
+// cuando behind no es null, se le ejecuta a su behind el mismo metodo, y asi sucesivamente hasta llegar al
+// ultimo cuerpo cuyo behind es null
+// al asignarle a behind una nueva instancia de cuerpop, su behind va a ser null
+
 
 object gameOver{
 	var imagen="gameover1.png"
